@@ -38,7 +38,7 @@ DEPEND="$COMMON_DEPEND
 	dev-qt/linguist-tools:5"
 
 RDEPEND="$COMMON_DEPEND
-	kde-frameworks/oxygen-icons
+	virtual/freedesktop-icon-theme
 	x11-misc/numlockx
 	x11-wm/fluxbox
 	x11-apps/xbacklight
