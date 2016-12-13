@@ -1,5 +1,5 @@
 --- /dev/null
-+++ platform/debian/mupdf.desktop
++++ ./platform/debian/mupdf.desktop
 @@ -0,0 +1,15 @@
 +[Desktop Entry]
 +Name=MuPDF
@@ -17,7 +17,7 @@
 +Name=View with mupdf
 +Exec=mupdf %f
 --- /dev/null
-+++ platform/debian/mupdf.pc
++++ ./platform/debian/mupdf.pc
 @@ -0,0 +1,12 @@
 +prefix=/usr
 +exec_prefix=${prefix}
@@ -32,7 +32,7 @@
 +Libs.private: -lopenjpeg -ljbig2dec -ljpeg -lz -lm
 +Cflags: -I${includedir}
 --- /dev/null
-+++ platform/debian/mupdf.xpm
++++ ./platform/debian/mupdf.xpm
 @@ -0,0 +1,497 @@
 +/* XPM */
 +static char *mupdf[] = {
