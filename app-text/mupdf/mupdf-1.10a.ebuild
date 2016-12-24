@@ -13,12 +13,12 @@ SRC_URI="http://mupdf.com/downloads/${P}-source.tar.gz"
 LICENSE="AGPL-3"
 SLOT="0/${PV}"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux ~ppc-macos ~x64-macos ~x86-macos"
-IUSE="X vanilla +curl libressl opengl +openssl static static-libs"
+IUSE="X vanilla +curl +javascript libressl opengl +openssl static static-libs"
 
 LIB_DEPEND="
 	!libressl? ( dev-libs/openssl:0[static-libs?] )
 	libressl? ( dev-libs/libressl[static-libs?] )
-	>=dev-lang/mujs-0_p20160504
+	javascript? ( >=dev-lang/mujs-0_p20160504 )
 	media-libs/freetype:2[static-libs?]
 	media-libs/harfbuzz[static-libs?]
 	media-libs/jbig2dec[static-libs?]
@@ -87,8 +87,8 @@ src_prepare() {
 		-e "1iHAVE_X11 = $(usex X)" \
 		-e "1iWANT_OPENSSL = $(usex openssl)" \
 		-e "1iWANT_CURL = $(usex curl)" \
-		-e "1iHAVE_MUJS = yes" \
-		-e "1iMUJS_LIBS = -lmujs" \
+		-e "1iHAVE_MUJS = $(usex javascript)" \
+		-e "1iMUJS_LIBS = $(usex javascript -lmujs '')" \
 		-e "1iMUJS_CFLAGS =" \
 		-e "1iHAVE_GLFW = $(usex opengl yes no)" \
 		-i Makerules || die
@@ -111,6 +111,10 @@ src_prepare() {
 		-e "\$a\\\t\$(QUIET_LINK) \$(CC) \$(LDFLAGS) --shared -Wl,-soname -Wl,${my_soname_js_none} -Wl,--no-undefined -o \$@ \$^ \$(LIBS)" \
 		-e "/install/s: COPYING : :" \
 		-i Makefile || die
+
+	use javascript || \
+		sed -e '/* #define FZ_ENABLE_JS/ a#define FZ_ENABLE_JS 0' \
+			-i include/mupdf/fitz/config.h
 }
 
 src_compile() {
